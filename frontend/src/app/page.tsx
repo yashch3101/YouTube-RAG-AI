@@ -49,6 +49,19 @@ export default function Home() {
     "Main conclusion",
   ];
 
+     const getEmbedUrl = (url) => {
+      const regExp =
+        /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/;
+
+      const match = url.match(regExp);
+
+      if (match && match[1]) {
+        return `https://www.youtube.com/embed/${match[1]}`;
+      }
+
+      return "";
+    };
+
 const askQuestion = async (
   customQuestion?: string
 ) => {
@@ -233,13 +246,10 @@ const askQuestion = async (
                 <div className="mt-6 rounded-3xl overflow-hidden border border-zinc-800 shadow-2xl">
 
                   <iframe
-                    id="youtube-player"
                     width="100%"
-                    height="450"
-                    src={`https://www.youtube.com/embed/${
-                      videoUrl.split("v=")[1]
-                    }`}
-                    title="YouTube video player"
+                    height="400"
+                    src={getEmbedUrl(videoUrl)}
+                    title="YouTube video"
                     allowFullScreen
                   />
 
