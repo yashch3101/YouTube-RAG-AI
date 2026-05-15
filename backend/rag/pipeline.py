@@ -81,15 +81,16 @@ def build_rag(video_url: str):
 
     video_id = extract_video_id(video_url)
 
-    api = YouTubeTranscriptApi()
-
-    transcript_list = api.fetch(video_id)
+    transcript_list = YouTubeTranscriptApi.get_transcript(
+    video_id,
+    languages=["hi", "en"]
+)
 
     transcript_with_time = []
 
     for chunk in transcript_list:
         transcript_with_time.append(
-            f"[{chunk.start:.2f}s] {chunk.text}"
+            f"[{chunk['start']:.2f}s] {chunk['text']}"
         )
 
     transcript = " ".join(transcript_with_time)
