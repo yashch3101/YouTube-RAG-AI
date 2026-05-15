@@ -16,20 +16,11 @@ app.add_middleware(
     allow_origins=[
         "https://you-tube-rag-ai.vercel.app"
     ],
+    allow_origin_regex="https://.*vercel.app",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-# CORS
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
 class ChatRequest(BaseModel):
     video_url: str
     question: str
