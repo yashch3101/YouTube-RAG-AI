@@ -81,10 +81,16 @@ def build_rag(video_url: str):
 
     video_id = extract_video_id(video_url)
 
-    transcript_list = YouTubeTranscriptApi.get_transcript(
-    video_id,
-    languages=["hi", "en"]
-)
+    try:
+        transcript_list = YouTubeTranscriptApi.get_transcript(
+            video_id,
+            languages=["hi", "en"]
+        )
+
+    except Exception:
+        transcript_list = YouTubeTranscriptApi.get_transcript(
+            video_id
+        )
 
     transcript_with_time = []
 
