@@ -96,7 +96,7 @@ def build_rag(video_url: str):
 
     for chunk in transcript_list:
         transcript_with_time.append(
-            f"[{chunk['start']:.2f}s] {chunk['text']}"
+            f"[{chunk.start:.2f}s] {chunk.text}"
         )
 
     transcript = " ".join(transcript_with_time)
