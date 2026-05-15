@@ -1,8 +1,7 @@
 import os
 import re
 
-import yt_dlp
-import requests
+from youtube_transcript_api import YouTubeTranscriptApi
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 from langchain_community.embeddings import HuggingFaceEmbeddings
@@ -74,49 +73,26 @@ def extract_video_id(url: str):
 
     return url
 
-def get_transcript(video_url: str):
-
-    ydl_opts = {
-        "quiet": True,
-        "skip_download": True,
-        "writesubtitles": True,
-        "writeautomaticsub": True,
-        "subtitleslangs": ["en"],
-    }
-
-    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-
-        info = ydl.extract_info(
-            video_url,
-            download=False
-        )
-
-        subtitles = (
-            info.get("automatic_captions")
-            or info.get("subtitles")
-        )
-
-        if not subtitles:
-            return ""
-
-        en_subs = subtitles.get("en")
-
-        if not en_subs:
-            return ""
-
-        subtitle_url = en_subs[0]["url"]
-
-        response = requests.get(subtitle_url)
-
-        return response.text
-
 
 def build_rag(video_url: str):
 
     if video_url in video_cache:
         return video_cache[video_url]
 
-    transcript = get_transcript(video_url)
+    video_id = extract_video_id(video_url)
+
+    api = YouTubeTranscriptApi()
+
+    transcript_list = api.fetch(video_id)
+
+    transcript_with_time = []
+
+    for chunk in transcript_list:
+        transcript_with_time.append(
+            f"[{chunk.start:.2f}s] {chunk.text}"
+        )
+
+    transcript = " ".join(transcript_with_time)
 
     # Chunking
     splitter = RecursiveCharacterTextSplitter(
