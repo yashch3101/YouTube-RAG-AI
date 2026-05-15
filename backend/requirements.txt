@@ -5,7 +5,6 @@ langchain-community
 langchain-groq
 langchain-text-splitters
 faiss-cpu
-youtube-transcript-api
 sentence-transformers
 rank-bm25
 pymongo
@@ -14,3 +13,5 @@ python-dotenv
 sentence-transformers
 torch
 transformers
+yt-dlp
+requests
