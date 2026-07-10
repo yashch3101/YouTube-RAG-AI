@@ -81,7 +81,7 @@ const askQuestion = async (
 
     setLoading(true);
 
-    const userMessage = {
+    const userMessage: Message = {
       role: "user",
       content: finalQuestion,
     };
@@ -95,7 +95,7 @@ const askQuestion = async (
       ...prev,
       userMessage,
       {
-        role: "assistant",
+        role: "assistant" as const,
         content: "",
       },
     ]);
@@ -139,10 +139,8 @@ const askQuestion = async (
 
         const updated = [...prev];
 
-        updated[
-          updated.length - 1
-        ] = {
-          role: "assistant",
+        updated[updated.length - 1] = {
+          role: "assistant" as const,
           content: streamedText,
         };
 
