@@ -32,9 +32,14 @@ export default function Home() {
 
   const [loading, setLoading] =
     useState(false);
+  type Message = {
+    role: "user" | "assistant";
+    content: string;
+    sources?: string[];
+  };
 
   const [messages, setMessages] =
-    useState<any[]>([]);
+    useState<Message[]>([]);
 
   const [chatHistory, setChatHistory] =
     useState<string[]>([]);
@@ -246,6 +251,7 @@ const askQuestion = async (
                 <div className="mt-6 rounded-3xl overflow-hidden border border-zinc-800 shadow-2xl">
 
                   <iframe
+                    id="youtube-player"
                     width="100%"
                     height="400"
                     src={getEmbedUrl(videoUrl)}
