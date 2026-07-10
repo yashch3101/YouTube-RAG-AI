@@ -49,7 +49,7 @@ export default function Home() {
     "Main conclusion",
   ];
 
-     const getEmbedUrl = (url) => {
+     const getEmbedUrl = (url: string) => {
       const regExp =
         /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/;
 
